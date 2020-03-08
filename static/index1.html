@@ -457,7 +457,7 @@
           if(document.searchForm.reportValidity() === false){
             return;
           }
-          document.getElementById("news-cards").innerHTML = "";
+          
           
           let data = {};
           data.keyWord = document.searchForm.keyword.value;
@@ -484,7 +484,7 @@
                 alert(json.message);
                 return;
               }
-
+              document.getElementById("news-cards").innerHTML = "";
               if(json.articles.length === 0){
                 document.getElementById("news-cards").innerHTML = "<p style='margin-left:auto;margin-right:auto;text-align:center;'> No results </p>"
               }
