@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html" charset="UTF-8">
+    <style>
+      html{
+        height: 100%;
+      }
+      body{
+        width: 980px;
+        margin: 0 auto;
+        height: 100%;
+      }
+
+      hr{
+        border-style: dashed;
+      }
+
+      a{
+        text-decoration: none;
+        color: black;
+      }
+
+      #buttons{
+        position: fixed;
+        width: 200px;
+        height: 100px;
+        left: 50px;
+        top: 50px;
+      }
+
+
+      #googleNews{
+        width: 200px;
+        height: 50px;
+        border-radius: 5px;
+        
+        text-align: center;
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        font-weight: bold;
+        font-size: large;
+      }
+
+      #search{
+        width: 200px;
+        height: 50px;
+        border-radius: 5px;
+        text-align: center;
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        font-weight: bold;
+        font-size: large;
+      }
+
+      #headline-container{
+        position: relative;
+        display: inline-block;
+        margin-top: 50px;
+        margin-left: 100px;
+        margin-right: auto;
+      }
+      #carousel{
+        position: relative;
+        display: inline-block;
+        width: 65%;
+        height: 300px;
+      }
+
+      #carouselIMG{
+        width:100%;
+        height:100%;
+        object-fit:cover;
+        z-index:0;
+        opacity: 0.9;
+        filter: alpha(opacity=90);
+      }
+
+      #wordcloud{
+        display: inline-block;
+        position: relative;
+        
+      }
+
+      
+      #masktxt{
+        position: absolute;
+        width: 100%;
+        bottom: 0%;
+        z-index: 2;
+        min-height: 20%;
+        background-color: rgba(0,0,0,0.4);
+      }
+
+      #masktxt #title{
+        text-align: center;
+        font-weight: bold;
+        font-size: larger;
+        color: white;
+        width: 100%;
+      }
+
+      #masktxt #description{
+        text-align: center;
+        color: white;
+        width: 90%;
+        min-height: 10%;
+        margin: 0 auto;
+      }
+
+      #wordcloud{
+        background-color:#F0F0F0;
+        
+      }
+      
+      .news-website{
+        text-align: center;
+      }
+
+      .cards-container{
+        position: relative;
+        display: inline-flex;
+        height: 450px;
+        width: 100%;
+        margin-right: auto;
+      }
+
+      .cards-container .card {
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+        width: 24.5%;
+        height: 100%;
+        border-radius: 5px;
+        margin-right: 5px;
+        background-color: #F0F0F0;
+      }
+
+      .card:hover{
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+      }
+      .card .container {
+        height: 70%;
+        width: 85%;
+        padding: 2px 16px;
+        text-align: center;
+        overflow: hidden;
+      }
+      .card img{
+        height: 30%;
+        width: 100%; 
+        object-fit:cover;
+        border-radius: 5px 5px 0 0;
+      }
+      #bigSearch{
+        
+        margin-top: 50px;
+        margin-left: 10%;
+        margin-right: 10%;
+        position: relative;
+        width: 85%;
+        
+      }
+      #searchBox{
+        background-color:#F0F0F0;
+
+        width: 100%;
+
+        height: 200px;
+
+        position: absolute;
+      }
+      #search-form{
+        width: 100%;
+
+        height: 100%;
+
+        position: absolute;
+      }
+      #selections{
+        text-align: center;
+      }
+      #search-clear{
+        text-align: center;
+      }
+      #search-button{
+        width: 60px;
+        height: 30px;
+        border-radius: 5px;
+        margin-right: 5%;
+        text-align: center;
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        font-weight: bold;
+        
+      }
+
+      #search-button:hover{
+        background-color: green;
+        color: white;
+      }
+
+      #clear-button{
+        width: 60px;
+        height: 30px;
+        border-radius: 5px;
+        
+        text-align: center;
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        font-weight: bold;
+        
+      }
+      #clear-button:hover{
+        background-color: green;
+        color: white;
+      }
+      #news-cards{
+        margin-top: 250px;
+        position: absolute;
+        width: 90%;
+        margin-right: 5%;
+        margin-left: 5%;
+      }
+
+      .news-card{
+        display: inline-flex;
+        position: relative;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+        width: 100%;
+        border-radius: 5px;
+        min-height: 150px;
+        text-align: left;
+        background-color:#F0F0F0;
+        margin-bottom: 2%;
+      }
+
+      .news-expand-card{
+        display: inline-flex;
+        position: relative;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+        width: 100%;
+        border-radius: 5px;
+        min-height: 150px;
+        text-align: left;
+        background-color:#F0F0F0;
+        margin-bottom: 2%;
+      }
+
+      .news-expand-card:hover{
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+      }
+
+      .news-card:hover{
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+      }
+
+      .a-img-container{
+        width: 100px;
+        height: 100px;
+        margin-top: auto;
+        margin-bottom: auto;
+        margin-left: 20px;
+        margin-right: 20px;
+      }
+
+      .a-expand-img-container{
+        width: 100px;
+        height: 100px;
+        margin-top: 3%;
+        margin-bottom: auto;
+        margin-left: 20px;
+        margin-right: 20px;
+      }
+
+      .a-img{
+        border-radius: 5px 5px 5px 5px;
+        width: 100px;
+        height: 100px;
+        object-fit:cover;
+      }
+
+      .news-card-container{
+        text-align: left;
+        margin-right: 10%;
+        width: 80%;
+        font-family: Georgia;
+      }
+
+      .news-expand-card-container{
+        text-align: left;
+        margin-right: 10%;
+        width: 80%;
+        font-family: Georgia;
+        padding: 3%;
+      }
+
+      #des1{
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+
+      #showButton{
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        margin-bottom: 3%;
+      }
+      .delete{
+        width:20px;
+        height:20px;
+        border-radius:60%;
+        position:absolute;
+        top:0px;
+        right:0px;
+        font-size: x-large;
+        text-align: center;
+      }
+     
+    </style>
+    <!-- Load d3.js -->
+    <script src="https://d3js.org/d3.v4.js"></script>
+
+    <!-- Load d3-cloud -->
+
+    <script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/d3.layout.cloud.js"></script>
+
+    <script>
+        window.onload = render;
+
+
+        function showSearchBox(){
+
+          document.getElementById("main").style.display="none";
+          if(document.getElementById("bigSearch"))
+            document.getElementById("bigSearch").style.display="";
+          document.getElementById("search").style.backgroundColor = "black";
+          document.getElementById("search").style.color = "white";
+          document.getElementById("googleNews").style.backgroundColor = "white";
+          document.getElementById("googleNews").style.color = "black";
+          
+          let htmlText = "<div id=searchBox>";
+          htmlText += "<form name='searchForm' action='' id=search-form'>";
+          htmlText += "<br><br>"
+          htmlText += "<label for='keyword' style='margin-left:15%;margin-right:3%'>Keyword<span style='color:red'>*</span></label>";
+          htmlText += "<input type='text' name = 'keyword' value='' size='16' id=keyword required='required'>";
+          htmlText += "<label for='from' style='margin-left: 3%;margin-right: 3%;'>From<span style='color:red'>*</span></label>";
+          htmlText += "<input type='date' name = 'from_date' value='' id=from-date required='required'>";
+          htmlText += "<label for='to' style='margin-left: 3%;margin-right: 3%;'>To<span style='color:red'>*</span></label>";
+          htmlText += "<input type='date' name = 'to_date' value='' id=to-date required='required'>";
+          htmlText += "<br><br><br>";
+          htmlText += "<div id=selections>"
+          htmlText += "<label for='category' style='margin-right: 5%;'>Category</label>";
+          htmlText += "<select name='category_list' style='text-align:center;margin-right:5%' onchange='getSource(this)'>";
+          htmlText += "<option selected='' value='all'> all </option>";
+          htmlText += "<option value='business'> Business </option>";
+          htmlText += "<option value='entertainment'> Entertainment </option>";
+          htmlText += "<option value='general'> General </option>";
+          htmlText += "<option value='health'> Health </option>";
+          htmlText += "<option value='science'> Science </option>";
+          htmlText += "<option value='sports'> Sports </option>";
+          htmlText += "<option value='technology'> Technology </option>";
+          htmlText += "</select>";
+          htmlText += "<label for='source' style='margin-right: 5%;'>Source</label>";
+          htmlText += "<select name='source_list' style='margin-right: 5%;text-align:center; width:100px;'>";
+          htmlText += "<option selected='' value='all'> all </option>";
+          htmlText += "</select>";
+          htmlText += "</div>"
+          htmlText += "<br><br>";
+          htmlText += "<div id='search-clear'>";
+          htmlText += "<button id='search-button' name='search_button' type = 'submit' onclick = 'searchNews()'> Search </button>";
+          htmlText += "<button id='clear-button' name='clear_button' onclick='clear_button1()'> Clear </button></div></div>";
+          htmlText += "<br/><br/>"
+          htmlText += "<div id=news-cards>";
+          htmlText += "</div>";
+         
+          //htmlText += "<iframe id='iframe' name='iframe' style='display:none;'></iframe>"
+          if(document.getElementById("bigSearch")){
+            document.getElementById("bigSearch").innerHTML = htmlText;
+          }
+          else{
+            let temp = document.createElement("div");
+            temp.id = "bigSearch";
+            temp.innerHTML = htmlText;
+            document.body.appendChild(temp);
+          }
+          let curDate = new Date();
+          let curDay = curDate.getDate();
+          let prevWeekDay = new Date(curDate);
+          prevWeekDay.setDate(curDay-7);
+
+          let prevWeekMonth = prevWeekDay.getMonth() + 1;
+          let prevDay = prevWeekDay.getDate();
+          if(prevWeekMonth < 10)
+            prevWeekMonth = "0" + prevWeekMonth;
+          if(prevDay < 10)
+            prevDay = "0" + prevDay;
+          if(curDay < 10)
+            curDay = "0" + curDay;
+          let curMonth = curDate.getMonth()+1;
+          if(curMonth < 10)
+            curMonth = "0" + curMonth;
+          document.searchForm.from_date.value = prevWeekDay.getFullYear() + "-" + prevWeekMonth + "-" + prevDay;
+          document.searchForm.to_date.value = curDate.getFullYear() + "-" + curMonth + "-" + curDay;
+          getSource(document.searchForm.category_list);
+        }
+
+        var numTop = -1;
+        
+        function clear_button1(){
+          event.preventDefault();
+          document.searchForm.keyword.value = "";
+          document.getElementById("news-cards").innerHTML = "";
+        }
+
+        function render(){
+          if(document.getElementById("wordcloud") !== null)
+            document.getElementById("wordcloud").innerHTML = "";
+          if(document.getElementById("searchBox") !== null){
+            document.getElementById("searchBox").innerHTML = "";
+            document.getElementById("bigSearch").style.display = "none";
+          }
+
+            
+          if(document.getElementById("main").style.display === "none"){
+            document.getElementById("main").style.display = "";
+          }
+          document.getElementById("search").style.background = "white";
+          document.getElementById("search").style.color = "black";
+          document.getElementById("googleNews").style.background = "black";
+          document.getElementById("googleNews").style.color = "white";
+            
+          renderCloud();
+          renderCarousel();
+        }
+
+        function searchNews(){
+          event.preventDefault();
+          if(document.searchForm.reportValidity() === false){
+            return;
+          }
+          document.getElementById("news-cards").innerHTML = "";
+          
+          let data = {};
+          data.keyWord = document.searchForm.keyword.value;
+          data.from_date = document.searchForm.from_date.value;
+          data.to_date = document.searchForm.to_date.value;
+          data.source = document.searchForm.source_list.value;
+          let tempDate1 = new Date(data.from_date);
+          let tempDate2 = new Date(data.to_date);
+          if(tempDate1 > tempDate2){
+            alert("Incorrect time");
+            return;
+          }
+          let header = new Headers({'Content-type': 'application/json'});
+          fetch("/searchNews", {method: 'POST', body: JSON.stringify(data), headers: header}).then(
+            function(response){
+              return response.json();
+            }
+          ).then(
+            function(json){
+              let num = 0;
+              if(!json.articles){
+                json = json.replace(/'/g, '"');
+                json = JSON.parse(json);
+                alert(json.message);
+                return;
+              }
+
+              if(json.articles.length === 0){
+                document.getElementById("news-cards").innerHTML = "<p style='margin-left:auto;margin-right:auto;text-align:center;'> No results </p>"
+              }
+
+
+              for(let article of json.articles){
+                let htmlText = "";
+                num += 1;
+                let imgURL = article.urlToImage;
+                let title = article.title;
+                let description = article.description;
+                let author = article.author;
+                let source = article.source.name;
+                let date = article.publishedAt;
+                let link_to_origin = article.url;
+                if(num > 5)
+                  htmlText = "<div class=news-card style='display:none' onclick='expand(this)' id=news-card-" + num +">";
+                else
+                  htmlText = "<div class='news-card' onclick='expand(this)' id=news-card-" + num +">";
+                htmlText += "<div class = 'a-img-container'>";
+                htmlText += "<img class = 'a-img' src=" + imgURL + "></img>";
+                htmlText += "</div>";
+                htmlText += "<div class='news-card-container'>";
+                htmlText += "<h3><b>" + title + "</b></h3>";
+                htmlText += "<div id=des1>" + description + "</div>";
+                htmlText += "</div>";
+                htmlText += "<br>"; 
+
+                let temp = document.createElement("div");
+                let year = date.substring(0, 4);
+                let month = date.substring(5, 7);
+                let day = date.substring(8, 10);
+                let converted_date = month + "/" + day + "/" + year;
+                temp.innerHTML = htmlText;
+                htmlText = "<div class='news-expand-card' style='display:none' id=news-card-"+ num +"-expand>";
+                htmlText += "<a href='javascript:void()' class='delete' onclick=delete_card(this) id=news-card-" + num + "-delete> &times</a>";
+                htmlText += "<div class = 'a-expand-img-container'>";
+                htmlText += "<img class = 'a-img' src=" + imgURL + "></img>";
+                htmlText += "</div>"
+                htmlText += "<div class='news-expand-card-container'>";
+                htmlText += "<h3 style='margin-top:0px'><b>" + title + "</b></h3>";
+                htmlText += "<p><b>Author </b>" + author + "</p>";
+                htmlText += "<p><b>Source: </b>" + source + "</p>";
+                htmlText += "<p><b>Date: </b>" + converted_date + "</p>";
+                htmlText += "<p>" + description + "</p>";
+                htmlText += "<a href='" + link_to_origin + "' style='text-decoration:underline; color:blue' target='_BLANK'>See Original Post</a>";
+                htmlText += "</div>";
+                htmlText += "<br>";
+                let temp1 = document.createElement("div");
+                temp1.innerHTML = htmlText;
+                if(num <= 15){
+                  document.getElementById("news-cards").appendChild(temp);
+                  document.getElementById("news-cards").appendChild(temp1);
+                }
+                  
+              }
+              if(num > 5){
+                let showButton = document.createElement("div");
+                showButton.id = "showButton";
+                let showMoreButton = document.createElement("button");
+                showMoreButton.id = "showMoreButton";
+                showMoreButton.name = "showMoreButton";
+                showMoreButton.innerHTML = "Show More";
+                showMoreButton.onclick = function(){
+                  let collections = document.getElementsByClassName("news-card");
+                  for(let collection of collections){
+                    if(collection.style.display === "none"){
+                      collection.style.display = "";
+                    }
+                  }
+                  document.getElementById("showMoreButton").style.display = "none";
+                  document.getElementById("showLessButton").style.display = "";
+                }
+                
+                showButton.appendChild(showMoreButton);
+                let showLessButton = document.createElement("button");
+                showLessButton.id = "showLessButton";
+                showLessButton.name = "showLessButton";
+                showLessButton.innerHTML = "Show Less";
+                showLessButton.style.display = "none";
+                showLessButton.onclick = function(){
+                  let collections = document.getElementsByClassName("news-card");
+                  for(let i=0; i<collections.length; ++i){
+                    if(i >= 5 ){
+                      collections[i].style.display = "none";
+                    }
+                  }
+                  document.getElementById("showMoreButton").style.display = "";
+                  document.getElementById("showLessButton").style.display = "none";
+                }
+                showButton.appendChild(showLessButton);
+                document.getElementById("news-cards").appendChild(showButton);
+                
+              }
+            }
+          )
+        }
+        
+        function expand(obj){
+          obj.style.display = "none";
+          let expand_id = obj.id + "-expand";
+          document.getElementById(expand_id).style.display = "";
+        }
+
+
+        function getSource(obj){
+          let cateJson = {};
+          document.searchForm.source_list.innerHTML = "<option selected='' value='all'> all </option>"
+          cateJson.category = obj.selectedOptions[0].value;
+          
+          fetch("/getSources", {method: 'POST', body: JSON.stringify(cateJson), headers: new Headers({'Content-type': 'application/json'})}).then(
+            function(response){
+              return response.json();
+            }
+          ).then(
+            function(json){
+              for(let source of json.sources){
+                let curName = source.name;
+                let curID = source.id;
+                document.searchForm.source_list.innerHTML += "<option value=" + curID + ">" + curName + "</option>";
+              }
+            }
+          )
+            
+          
+        }
+
+        function renderCarousel(){
+          
+          fetch("/renderCa").then(
+            function(response){
+              return response.json();
+            }
+          ).then(
+            function(json){
+              response = json;
+              numTop += 1
+              if(numTop >= 5){
+                numTop = 0;
+              }
+              let curImg = response.articles[numTop].urlToImage;
+              let imgURL = response.articles[numTop].url;
+              let title = response.articles[numTop].title;
+              let description = response.articles[numTop].description;
+              
+              if(document.getElementById("carouselIMGURL") !== null){
+                document.getElementById("carouselIMGURL").href = imgURL;
+                document.getElementById("carouselIMG").src = curImg;
+                document.getElementById("title").innerHTML = title;
+                document.getElementById("description").innerHTML = description;
+              }
+            }
+          );
+          if(document.getElementById("main").style.display !== "none"){
+            setTimeout("renderCarousel()", 5*1000);
+          }
+          
+        }
+
+        function delete_card(obj){
+          
+          let curID = obj.id.substring(0, obj.id.lastIndexOf("-"));
+          document.getElementById(curID+"-expand").style.display = "none";
+          document.getElementById(curID).style.display = "";
+        }
+
+        function renderCloud(){
+          //document.getElementById("wordcloud").innerHTML = "wordCloud";
+          fetch("/indexRender").then(
+            function(response){
+              return response.json();
+            }
+          ).then(
+            function(json){
+              response = json;
+              for(let i=0; i<4; ++i){
+                let curImg = response.cnn[i].urlToImage;
+                let imgURL = response.cnn[i].url;
+                let title = response.cnn[i].title;
+                let description = response.cnn[i].description;
+                let num = i+1;
+                document.getElementById("cnn-" + num).childNodes[1].href = imgURL;
+                document.getElementById("cnn-" + num + "-img").src = curImg;
+                document.getElementById("cnn-" + num + "-title").innerHTML = title;
+                document.getElementById("cnn-" + num + "-description").innerHTML = description;
+              }
+              for(let i=0; i<4; ++i){
+                let curImg = response["fox-news"][i].urlToImage;
+                let imgURL = response["fox-news"][i].url;
+                let title = response["fox-news"][i].title;
+                let description = response["fox-news"][i].description;
+                let num = i+1;
+                document.getElementById("fox-" + num).childNodes[1].href = imgURL;
+                document.getElementById("fox-" + num + "-img").src = curImg;
+                document.getElementById("fox-" + num + "-title").innerHTML = title;
+                document.getElementById("fox-" + num + "-description").innerHTML = description;
+              }
+              let words = response.words;
+              var myWords = []
+              
+              for(let cur of words){
+                myWords.push(cur);
+              }
+              
+              var margin = {top: 0, right: 0, bottom: 0, left: 0},
+              width = 300 - margin.left - margin.right,
+              height = 300 - margin.top - margin.bottom;
+    
+              // append the svg object to the body of the page
+              var svg = d3.select("#wordcloud").append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform",
+                  "translate(" + margin.left + "," + margin.top + ")");
+    
+              // Constructs a new cloud layout instance. It run an algorithm to find the position of words that suits your requirements
+              // Wordcloud features that are different from one word to the other must be here
+              var layout = d3.layout.cloud()
+                .size([width, height])
+                .words(myWords.map(function(d) { return {text: d.word, size: d.size + 5}; }))
+                .padding(5)        //space between words
+                .rotate(function() { return ~~(Math.random() * 2) * 90; })
+                .fontSize(function(d) { return d.size; })      // font size of words
+                .on("end", draw);
+              layout.start();
+    
+              // This function takes the output of 'layout' above and draw the words
+              // Wordcloud features that are THE SAME from one word to the other can be here
+              function draw(words) {
+                svg
+                  .append("g")
+                    .attr("transform", "translate(" + layout.size()[0] / 2 + "," + layout.size()[1] / 2 + ")")
+                  .selectAll("text")
+                    .data(words)
+                  .enter().append("text")
+                    .style("font-size", function(d) { return d.size + "px"; })
+                    .attr("text-anchor", "middle")
+                    .style("font-family", "Impact")
+                    .attr("transform", function(d) {
+                      return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+                    })
+                    .text(function(d) { return d.text; });
+              }
+            }
+          );
+        } 
+
+        
+        function overGoogle(thi){
+          thi.style.backgroundColor = "green";
+          thi.style.color = "white";
+        };
+
+        function outGoogle(thi){
+          if(document.getElementById("main").style.display === "none"){
+            thi.style.backgroundColor = "white";
+            thi.style.color = "black";
+          }
+          else{
+            thi.style.backgroundColor = "black";
+            thi.style.color = "white";
+          }
+        };
+        
+        function overSearch(thi){
+          thi.style.backgroundColor = "green";
+          thi.style.color = "white";
+        };
+
+        function outSearch(thi){
+          if(document.getElementById("main").style.display === "none"){
+            thi.style.backgroundColor = "black";
+            thi.style.color = "white";
+          }
+          else{
+            thi.style.backgroundColor = "white";
+            thi.style.color = "black";
+          }
+        }
+          
+    </script>
+  </head>
+
+  <body>
+    
+    <div id=buttons>
+      <form name = "buttonForm">
+      <input type = "button" id = "googleNews" name = "Google-News" value = "Google News" onclick="render()" onmouseover="overGoogle(this)" onmouseout="outGoogle(this)">
+      <br>
+        <input type = "button" id = "search" name = "Search" value = "Search" onclick="showSearchBox()" onmouseover="overSearch(this)" onmouseout="outSearch(this)">
+      </form>
+    </div>
+    <div id = main>
+      <div id=headline-container>
+        <div id = carousel>
+          <a id = "carouselIMGURL" href="" target="_BLANK">
+            <img id = carouselIMG alt="temp1" src=""></img>
+            
+            <div id = masktxt> 
+              <p id = title> 
+              </p>
+              <p id = description>
+              </p>
+            </div>
+          </a>
+        </div>
+      
+        <div id = wordcloud>
+
+        </div>
+        <div id = cnn-container>
+          <h3 class = "news-website"> CNN </h3>
+          <hr style="border-top: 1px;"></hr>
+          <div class = "cards-container">
+            <div class = "card" id = cnn-1>
+              <a href="" target="_BLANK">
+                <img src="" alt="Avatar" id=cnn-1-img>
+                <div class="container">
+                  <h4><b id = cnn-1-title></b></h4> 
+                  <p id = cnn-1-description></p> 
+                </div>
+              </a>
+            </div>
+            <div class = "card" id = cnn-2>
+              <a href="" target="_BLANK">
+                <img src="" alt="Avatar" id=cnn-2-img>
+                <div class="container">
+                  <h4><b id = cnn-2-title></b></h4> 
+                  <p id = cnn-2-description></p> 
+                </div>
+              </a>
+            </div>
+            <div class = "card" id = cnn-3>
+              <a href="" target="_BLANK">
+                <img src="" alt="Avatar" id=cnn-3-img>
+                <div class="container">
+                  <h4><b id = cnn-3-title></b></h4> 
+                  <p id = cnn-3-description></p> 
+                </div>
+              </a>
+            </div>
+            <div class = "card" id = cnn-4>
+              <a href="" target="_BLANK">
+                <img src="" alt="Avatar" id=cnn-4-img>
+                <div class="container">
+                  <h4><b id = cnn-4-title></b></h4> 
+                  <p id = cnn-4-description></p> 
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div id = fox-container>
+          <h3 class = "news-website"> FOX News </h3>
+          <hr style="border-top: 1px;"></hr>
+          <div class = "cards-container">
+            <div class = "card" id = fox-1>
+              <a href="" target="_BLANK">
+                <img src="" alt="Avatar" id=fox-1-img>
+                <div class="container">
+                  <h4><b id = fox-1-title></b></h4> 
+                  <p id = fox-1-description></p> 
+                </div>
+              </a>
+            </div>
+            <div class = "card" id = fox-2>
+              <a href="" target="_BLANK">
+                <img src="" alt="Avatar" id=fox-2-img>
+                <div class="container">
+                  <h4><b id = fox-2-title></b></h4> 
+                  <p id = fox-2-description></p> 
+                </div>
+              </a>
+            </div>
+            <div class = "card" id = fox-3>
+              <a href="" target="_BLANK">
+                <img src="" alt="Avatar" id=fox-3-img>
+                <div class="container">
+                  <h4><b id = fox-3-title></b></h4> 
+                  <p id = fox-3-description></p> 
+                </div>
+              </a>
+            </div>
+            <div class = "card" id = fox-4>
+              <a href="" target="_BLANK">
+                <img src="" alt="Avatar" id=fox-4-img>
+                <div class="container">
+                  <h4><b id = fox-4-title></b></h4> 
+                  <p id = fox-4-description></p> 
+                </div>
+              </a>
+            </div>
+          </div>
+          <br>
+          <br>
+        </div>
+
+    </div>
+    
+  </body>
+  
+</html>
