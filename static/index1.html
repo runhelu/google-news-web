@@ -426,6 +426,7 @@
             curMonth = "0" + curMonth;
           document.searchForm.from_date.value = prevWeekDay.getFullYear() + "-" + prevWeekMonth + "-" + prevDay;
           document.searchForm.to_date.value = curDate.getFullYear() + "-" + curMonth + "-" + curDay;
+          document.searchForm.category_list.selectedOptions = "all";
           getSource(document.searchForm.category_list);
           document.searchForm.keyword.value = "";
           document.getElementById("news-cards").innerHTML = "";
