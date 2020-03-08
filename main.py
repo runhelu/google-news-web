@@ -137,6 +137,7 @@ def indexRender():
     
     return response
 
+@app.route('/index')
 @app.route('/')
 def hello():
     """Return a friendly HTTP greeting."""

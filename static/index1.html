@@ -5,6 +5,7 @@
     <style>
       html{
         height: 100%;
+        font-family: Georgia;
       }
       body{
         width: 980px;
@@ -118,7 +119,7 @@
       .cards-container{
         position: relative;
         display: inline-flex;
-        height: 450px;
+        height: 580px;
         width: 100%;
         margin-right: auto;
       }
@@ -499,10 +500,12 @@
                 let source = article.source.name;
                 let date = article.publishedAt;
                 let link_to_origin = article.url;
+                htmlText = "<a href='javascript:void(0)'>";
                 if(num > 5)
-                  htmlText = "<div class=news-card style='display:none' onclick='expand(this)' id=news-card-" + num +">";
+                  htmlText += "<div class=news-card style='display:none' onclick='expand(this)' id=news-card-" + num +">";
                 else
-                  htmlText = "<div class='news-card' onclick='expand(this)' id=news-card-" + num +">";
+                  htmlText += "<div class='news-card' onclick='expand(this)' id=news-card-" + num +">";
+                
                 htmlText += "<div class = 'a-img-container'>";
                 htmlText += "<img class = 'a-img' src=" + imgURL + "></img>";
                 htmlText += "</div>";
@@ -510,7 +513,9 @@
                 htmlText += "<h3><b>" + title + "</b></h3>";
                 htmlText += "<div id=des1>" + description + "</div>";
                 htmlText += "</div>";
-                htmlText += "<br>"; 
+                htmlText += "<br>";
+                htmlText += "</div>";
+                htmlText += "</a>";
 
                 let temp = document.createElement("div");
                 let year = date.substring(0, 4);
@@ -519,7 +524,7 @@
                 let converted_date = month + "/" + day + "/" + year;
                 temp.innerHTML = htmlText;
                 htmlText = "<div class='news-expand-card' style='display:none' id=news-card-"+ num +"-expand>";
-                htmlText += "<a href='javascript:void()' class='delete' onclick=delete_card(this) id=news-card-" + num + "-delete> &times</a>";
+                htmlText += "<a href='javascript:void(0)' class='delete' onclick=delete_card(this) id=news-card-" + num + "-delete> &times</a>";
                 htmlText += "<div class = 'a-expand-img-container'>";
                 htmlText += "<img class = 'a-img' src=" + imgURL + "></img>";
                 htmlText += "</div>"
