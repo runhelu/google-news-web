@@ -6,7 +6,7 @@ import json
 import re
 
 app = Flask(__name__)
-newsapi = NewsApiClient(api_key='0a381aa5403f4728a686b2b262bfcdc4')
+newsapi = NewsApiClient(api_key='ce142f81906948979b2f05ecf6e12c31')
 top30words = dict()
 stopWords = set()
 with open("stopwords_en.txt", "r") as f:
@@ -26,6 +26,24 @@ def getSources():
             sources = newsapi.get_sources(category = category, language = "en", country = "us")
         response = jsonify(sources)
         return response
+
+@app.route('/renderCa', methods = ["GET"])
+def renderCa():
+    dict2 = {}
+    try:
+        dict2 = newsapi.get_top_headlines(language='en', page = 1)
+    except Exception as e:
+        return jsonify(str(e))
+    response = {}
+    response["articles"] = []
+    for article in dict2["articles"]:
+        if article["author"] and article["description"] and article["title"] and article["url"] and article["source"] and article["urlToImage"] and article["publishedAt"]:
+            if len(response["articles"]) < 5:
+                response["articles"].append(article)
+            else:
+                break
+    response = jsonify(response)
+    return response
 
 @app.route('/searchNews', methods = ["POST"])
 def searchNews():
@@ -48,33 +66,14 @@ def searchNews():
             except Exception as e:
                 
                 return jsonify(str(e))
+
         response = {}
         response["articles"]=[]
         for article in everything["articles"]:
             if article["author"] and article["description"] and article["title"] and article["url"] and article["source"] and article["urlToImage"] and article["publishedAt"]:
                 response["articles"].append(article)
-            
         response = jsonify(response)
         return response    
-
-
-@app.route('/renderCa')
-def renderCa():
-    top_headlines = {}
-    try:
-        top_headlines = newsapi.get_top_headlines(language='en', page = 1)
-    except Exception as e:
-        return jsonify(str(e))
-    response = {}
-    response["articles"] = []
-    for article in top_headlines["articles"]:
-        if article["author"] and article["description"] and article["title"] and article["url"] and article["source"] and article["urlToImage"] and article["publishedAt"]:
-            if len(response["articles"]) < 5:
-                response["articles"].append(article)
-            else:
-                break
-    response = jsonify(response)
-    return response
 
 @app.route('/indexRender')
 def indexRender():

@@ -616,38 +616,63 @@
           
         }
 
+        var firstTime = true;
+        var realJson;
         function renderCarousel(){
-          
-          fetch("/renderCa").then(
-            function(response){
-              return response.json();
-            }
-          ).then(
-            function(json){
-              if(!json.articles){
-                json = json.replace(/'/g, '"');
-                json = JSON.parse(json);
-                alert(json.message);
-                return;
+          if(firstTime){
+            firstTime = false;
+            fetch("/renderCa").then(
+              function(response){
+                return response.json();
               }
-              response = json;
-              numTop += 1
-              if(numTop >= 5){
-                numTop = 0;
-              }
-              let curImg = response.articles[numTop].urlToImage;
-              let imgURL = response.articles[numTop].url;
-              let title = response.articles[numTop].title;
-              let description = response.articles[numTop].description;
+            ).then(
+              function(json){
+                if(!json.articles){
+                  json = json.replace(/'/g, '"');
+                  json = JSON.parse(json);
+                  alert(json.message);
+                  return;
+                }
+                response = json;
+                realJson = json;
+                numTop += 1
+                if(numTop >= 5){
+                  numTop = 0;
+                }
+
+                let curImg = response.articles[numTop].urlToImage;
+                let imgURL = response.articles[numTop].url;
+                let title = response.articles[numTop].title;
+                let description = response.articles[numTop].description;
               
-              if(document.getElementById("carouselIMGURL") !== null){
-                document.getElementById("carouselIMGURL").href = imgURL;
-                document.getElementById("carouselIMG").src = curImg;
-                document.getElementById("title").innerHTML = title;
-                document.getElementById("description").innerHTML = description;
+                if(document.getElementById("carouselIMGURL") !== null){
+                  document.getElementById("carouselIMGURL").href = imgURL;
+                  document.getElementById("carouselIMG").src = curImg;
+                  document.getElementById("title").innerHTML = title;
+                  document.getElementById("description").innerHTML = description;
+                }
               }
+            );
+          }
+          else{
+            numTop += 1
+            if(numTop >= 5){
+              numTop = 0;
             }
-          );
+
+            let curImg = response.articles[numTop].urlToImage;
+            let imgURL = response.articles[numTop].url;
+            let title = response.articles[numTop].title;
+            let description = response.articles[numTop].description;
+              
+            if(document.getElementById("carouselIMGURL") !== null){
+              document.getElementById("carouselIMGURL").href = imgURL;
+              document.getElementById("carouselIMG").src = curImg;
+              document.getElementById("title").innerHTML = title;
+              document.getElementById("description").innerHTML = description;
+            }
+          }
+
           if(document.getElementById("main").style.display !== "none"){
             setTimeout("renderCarousel()", 5*1000);
           }
