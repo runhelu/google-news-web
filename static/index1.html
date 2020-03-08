@@ -624,6 +624,12 @@
             }
           ).then(
             function(json){
+              if(!json.articles){
+                json = json.replace(/'/g, '"');
+                json = JSON.parse(json);
+                alert(json.message);
+                return;
+              }
               response = json;
               numTop += 1
               if(numTop >= 5){
@@ -663,6 +669,12 @@
             }
           ).then(
             function(json){
+              if(!json.articles){
+                json = json.replace(/'/g, '"');
+                json = JSON.parse(json);
+                alert(json.message);
+                return;
+              }
               response = json;
               for(let i=0; i<4; ++i){
                 let curImg = response.cnn[i].urlToImage;

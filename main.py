@@ -60,7 +60,11 @@ def searchNews():
 
 @app.route('/renderCa')
 def renderCa():
-    top_headlines = newsapi.get_top_headlines(language='en', page = 1)
+    top_headlines = {}
+    try:
+        top_headlines = newsapi.get_top_headlines(language='en', page = 1)
+    except Exception as e:
+        return jsonify(str(e))
     response = {}
     response["articles"] = []
     for article in top_headlines["articles"]:
@@ -74,7 +78,11 @@ def renderCa():
 
 @app.route('/indexRender')
 def indexRender():
-    top_headlines = newsapi.get_top_headlines(language='en', page = 1)
+    top_headlines = {}
+    try:
+        top_headlines = newsapi.get_top_headlines(language='en', page = 1)
+    except Exception as e:
+        return jsonify(str(e))
     response = {}
     punctuation = '!,;:?".'
     response["articles"] = []
