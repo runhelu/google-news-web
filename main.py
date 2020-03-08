@@ -59,7 +59,7 @@ def searchNews():
                 everything = newsapi.get_everything(q=keyword, sources=source, from_param=from_date, to=to_date, language='en', page_size=30,sort_by='publishedAt', page=1)
             except Exception as e:
                 
-                return jsonify(e)
+                return jsonify(str(e))
         else:
             try:
                 everything = newsapi.get_everything(q=keyword, from_param=from_date, to=to_date, language='en', page_size=30,sort_by='publishedAt', page=1)
