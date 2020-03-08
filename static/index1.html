@@ -398,8 +398,8 @@
           let curMonth = curDate.getMonth()+1;
           if(curMonth < 10)
             curMonth = "0" + curMonth;
-          document.searchForm.from_date.value = prevWeekDay.getFullYear() + "-" + prevWeekMonth + "-" + prevDay;
-          document.searchForm.to_date.value = curDate.getFullYear() + "-" + curMonth + "-" + curDay;
+          document.searchForm.from_date.value = prevWeekMonth + "/" + prevDay + "/" + prevWeekDay.getFullYear();
+          document.searchForm.to_date.value =  curMonth + "/" + curDay + "/" + curDate.getFullYear() ;
           getSource(document.searchForm.category_list);
         }
 
@@ -407,6 +407,25 @@
         
         function clear_button1(){
           event.preventDefault();
+          let curDate = new Date();
+          let curDay = curDate.getDate();
+          let prevWeekDay = new Date(curDate);
+          prevWeekDay.setDate(curDay-7);
+
+          let prevWeekMonth = prevWeekDay.getMonth() + 1;
+          let prevDay = prevWeekDay.getDate();
+          if(prevWeekMonth < 10)
+            prevWeekMonth = "0" + prevWeekMonth;
+          if(prevDay < 10)
+            prevDay = "0" + prevDay;
+          if(curDay < 10)
+            curDay = "0" + curDay;
+          let curMonth = curDate.getMonth()+1;
+          if(curMonth < 10)
+            curMonth = "0" + curMonth;
+          document.searchForm.from_date.value = prevWeekMonth + "/" + prevDay + "/" + prevWeekDay.getFullYear();
+          document.searchForm.to_date.value =  curMonth + "/" + curDay + "/" + curDate.getFullYear() ;
+          getSource(document.searchForm.category_list);
           document.searchForm.keyword.value = "";
           document.getElementById("news-cards").innerHTML = "";
         }
