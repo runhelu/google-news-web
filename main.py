@@ -17,7 +17,7 @@ f.close()
 
 @app.route('/getSources', methods = ["GET", "POST"])
 def getSources():
-    if flask.request.method == "GET":
+    if flask.request.method == "GET" or flask.request.method == "POST":
         category = flask.request.json["category"]
         category = category.lower()
         if(category == "all"):
@@ -47,7 +47,7 @@ def renderCa():
 
 @app.route('/searchNews', methods = ["GET", "POST"])
 def searchNews():
-    if flask.request.method == "GET":
+    if flask.request.method == "GET" or flask.request.method == "POST":
         data = flask.request.json
         keyword = data["keyWord"]
         from_date = data["from_date"]
@@ -144,8 +144,8 @@ def indexRender():
     
     return response
 
-@app.route('/index')
-@app.route('/')
+@app.route('/index', methods=["GET"])
+@app.route('/', methods=["GET"])
 def hello():
     """Return a friendly HTTP greeting."""
     
