@@ -15,9 +15,9 @@ with open("stopwords_en.txt", "r") as f:
         stopWords.add(word)
 f.close()
 
-@app.route('/getSources', methods = ["POST"])
+@app.route('/getSources', methods = ["GET", "POST"])
 def getSources():
-    if flask.request.method == "POST":
+    if flask.request.method == "GET":
         category = flask.request.json["category"]
         category = category.lower()
         if(category == "all"):
@@ -45,9 +45,9 @@ def renderCa():
     response = jsonify(response)
     return response
 
-@app.route('/searchNews', methods = ["POST"])
+@app.route('/searchNews', methods = ["GET", "POST"])
 def searchNews():
-    if flask.request.method == "POST":
+    if flask.request.method == "GET":
         data = flask.request.json
         keyword = data["keyWord"]
         from_date = data["from_date"]
@@ -75,7 +75,7 @@ def searchNews():
         response = jsonify(response)
         return response    
 
-@app.route('/indexRender')
+@app.route('/indexRender', methods=["GET"])
 def indexRender():
     top_headlines = {}
     try:
@@ -149,7 +149,7 @@ def indexRender():
 def hello():
     """Return a friendly HTTP greeting."""
     
-    return app.send_static_file("index1.html")
+    return app.send_static_file("index.html")
     
 @app.after_request
 def after_request(resp):
