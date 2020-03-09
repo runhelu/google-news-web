@@ -555,8 +555,10 @@
                 showMoreButton.innerHTML = "Show More";
                 showMoreButton.onclick = function(){
                   let collections = document.getElementsByClassName("news-card");
+                  let i = 0;
                   for(let collection of collections){
-                    if(collection.style.display === "none"){
+                    i += 1;
+                    if(collection.style.display === "none" && i > 5){
                       collection.style.display = "";
                     }
                   }
@@ -573,7 +575,13 @@
                 showLessButton.onclick = function(){
                   let collections = document.getElementsByClassName("news-card");
                   for(let i=0; i<collections.length; ++i){
-                    if(i >= 5 ){
+                    if(i >= 5){
+                      collections[i].style.display = "none";
+                    }
+                  }
+                  collections = document.getElementsByClassName("news-expand-card");
+                  for(let i=0; i<collections.length; ++i){
+                    if(i >= 5){
                       collections[i].style.display = "none";
                     }
                   }
