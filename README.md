@@ -1,4 +1,4 @@
-## A news website supporting news search
+# A news website supporting news search
 
 -Top headlines from FOX news and CNN news
 
